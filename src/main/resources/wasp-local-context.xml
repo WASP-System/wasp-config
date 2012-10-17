@@ -46,7 +46,7 @@
 		called "waspGridWorkService" -->
 	<bean id="waspGridWorkService" class="edu.yu.einstein.wasp.grid.work.SgeWorkService">
 		<property name="transportService" ref="gridTransportService" />
-		<property name="namePrefix" value="${wasp.name.prefix}" />
+		<property name="jobNamePrefix" value="${wasp.name.prefix}" />
 	</bean>
 	
 	<!-- waspGridFileService implements basic file transfer methods -->
