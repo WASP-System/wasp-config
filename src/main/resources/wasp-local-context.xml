@@ -30,7 +30,7 @@
 		<property name="mailCircumstances" value="${wasp.grid.mailcircumstances}" />
 		<property name="availableWorkServices">
 			<list>
-				<ref bean="waspGridService" />
+				<ref bean="waspGridWorkService" />
 			</list>
 		</property>
 	</bean>
@@ -40,6 +40,8 @@
 		<property name="hostResolver" ref="gridHostResolver" />
 		<property name="identityFile" value="~/.ssh/id_rsa.testing" />
 		<property name="softwareManager" ref="waspSoftwareManager" />
+		<property name="name" value="albert" />
+		<property name="localProperties" ref="waspLocalProperties" />
 	</bean>
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
@@ -52,15 +54,21 @@
 				<value>${wasp.grid.parallelenvironment}</value>
 			</list>
 		</property>
+		<property name="gridFileService" ref="waspGridFileService" />
 	</bean>
-	
+
 	<!-- waspGridFileService implements basic file transfer methods -->
 	<bean id="waspGridFileService" class="edu.yu.einstein.wasp.grid.file.SshFileService">
 		<property name="hostResolver" ref="gridHostResolver" />
 		<property name="identityFile" value="${wasp.ssh.identityfile}" />
 	</bean>
-	
+
 	<!-- Configure remote work service to utilize modules for software management -->
-	<bean id="waspSoftwareManager" class="edu.yu.einstein.wasp.grid.work.ModulesManager" />
+	<bean id="waspSoftwareManager" class="edu.yu.einstein.wasp.grid.work.ModulesManager">
+		<constructor-arg type="java.lang.String">
+			<value>albert</value>
+		</constructor-arg>
+		<constructor-arg><ref bean="waspLocalProperties" /></constructor-arg>
+	</bean>
 
 </beans>
