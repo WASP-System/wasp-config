@@ -16,7 +16,9 @@
   http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
         "
 	default-autowire="byName">
-
+	
+	<!-- import site security configuration -->
+	<import resource="classpath:security-site-context.xml" />
 
 	<!-- class for determining host to execute jobs -->
 	<bean id="gridHostResolver" class="edu.yu.einstein.wasp.grid.SingleHostResolver">
@@ -70,5 +72,7 @@
 		</constructor-arg>
 		<constructor-arg><ref bean="waspLocalProperties" /></constructor-arg>
 	</bean>
+	
+	
 
 </beans>
