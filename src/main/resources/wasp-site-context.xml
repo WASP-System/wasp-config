@@ -43,7 +43,7 @@
 		<property name="identityFile" value="~/.ssh/id_rsa.testing" />
 		<property name="softwareManager" ref="waspSoftwareManager" />
 		<property name="name" value="albert" />
-		<property name="localProperties" ref="waspLocalProperties" />
+		<property name="localProperties" ref="waspSiteProperties" />
 	</bean>
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
@@ -70,7 +70,7 @@
 		<constructor-arg type="java.lang.String">
 			<value>albert</value>
 		</constructor-arg>
-		<constructor-arg><ref bean="waspLocalProperties" /></constructor-arg>
+		<constructor-arg><ref bean="waspSiteProperties" /></constructor-arg>
 	</bean>
 	
 	
