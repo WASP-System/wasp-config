@@ -21,6 +21,7 @@
     <File>${catalina.home}/logs/wasp-daemon.log</File>
     <encoder>
       <pattern>%d %p [%c] - %m%n</pattern>
+      <immediateFlush>false</immediateFlush>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
