@@ -10,14 +10,14 @@
 <configuration>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d %p [%c] - %m%n</pattern>
+      <pattern>%d %p [%c %L] - %m%n</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
     </filter>
   </appender>
+<!--
   <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
     <File>${catalina.home}/logs/wasp-daemon.log</File>
     <encoder>
       <pattern>%d %p [%c] - %m%n</pattern>
@@ -33,15 +33,16 @@
       <MaxFileSize>64MB</MaxFileSize>
     </triggeringPolicy>
   </appender>
+  -->
   <logger name="org.apache.velocity.app.VelocityEngine" level="WARN"/>
   <logger name="org.hibernate" level="WARN"/>
-  <logger name="org.springframework.integration" level="DEBUG"/>
-  <logger name="org.springframework" level="DEBUG"/>
+  <logger name="org.springframework.integration" level="INFO"/>
+  <logger name="org.springframework" level="INFO"/>
   <logger name="org.hibernate.SQL" level="INFO"/>
   <logger name="org.springframework.batch" level="DEBUG"/>
   <logger name="edu.yu.einstein.wasp" level="DEBUG"/>
+  <logger name="org.springframework.integration.channel" level="DEBUG"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
-    <appender-ref ref="logfile"/>
   </root>
 </configuration>

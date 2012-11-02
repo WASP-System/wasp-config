@@ -44,6 +44,7 @@
 		<property name="softwareManager" ref="waspSoftwareManager" />
 		<property name="name" value="albert" />
 		<property name="localProperties" ref="waspSiteProperties" />
+		<property name="userDirIsRoot" value="${wasp.ssh.userDirIsRoot}" />
 	</bean>
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
@@ -63,6 +64,7 @@
 	<bean id="waspGridFileService" class="edu.yu.einstein.wasp.grid.file.SshFileService">
 		<property name="hostResolver" ref="gridHostResolver" />
 		<property name="identityFile" value="${wasp.ssh.identityfile}" />
+		<property name="userDirIsRoot" value="${wasp.ssh.userDirIsRoot}" />
 	</bean>
 
 	<!-- Configure remote work service to utilize modules for software management -->
