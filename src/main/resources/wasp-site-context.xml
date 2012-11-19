@@ -22,18 +22,15 @@
 
 	<!-- class for determining host to execute jobs -->
 	<bean id="gridHostResolver" class="edu.yu.einstein.wasp.grid.SingleHostResolver">
-		<property name="availableWorkServices">
-			<list>
-				<ref bean="waspGridWorkService" />
-			</list>
-		</property>
+		<constructor-arg name="gridWorkService" ref="waspGridWorkService" />
+		<lookup-method name="createWorkUnit" bean="waspWorkUnit"/>
 	</bean>
 
 	<!-- layer that handles connections, can be ssh, localhost -->
-	<bean id="gridTransportService" class="edu.yu.einstein.wasp.grid.work.SshService">
-		<property name="hostname" value="${wasp.ssh.host}" />
-		<property name="username" value="${wasp.ssh.user}" />
-		<property name="identityFile" value="~/.ssh/id_rsa.testing" />
+	<bean id="gridTransportService" class="edu.yu.einstein.wasp.grid.work.SshTransportService">
+		<property name="hostName" value="${wasp.ssh.host}" />
+		<property name="userName" value="${wasp.ssh.user}" />
+		<property name="identityFileName" value="${wasp.ssh.identityfile:~/.ssh/id_rsa}" />
 		<property name="softwareManager" ref="waspSoftwareManager" />
 		<property name="name" value="${wasp.ssh.host.name}" />
 		<property name="localProperties" ref="waspSiteProperties" />
@@ -42,13 +39,13 @@
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
 	<bean id="waspGridWorkService" class="edu.yu.einstein.wasp.grid.work.SgeWorkService">
+		<constructor-arg ref="gridTransportService" />
 		<property name="queue" value="${wasp.grid.queue}" />
 		<property name="maxRunTime" value="${wasp.grid.maxruntime}" />
 		<property name="account" value="${wasp.grid.account}" />
 		<property name="project" value="${wasp.grid.project}" />
 		<property name="mailRecipient" value="${wasp.grid.mailrecipient}" />
 		<property name="mailCircumstances" value="${wasp.grid.mailcircumstances}" />	
-		<property name="transportService" ref="gridTransportService" />
 		<property name="jobNamePrefix" value="${wasp.name.prefix}" />
 		<property name="availableParallelEnvironments">
 			<list>
@@ -60,7 +57,9 @@
 
 	<!-- waspGridFileService implements basic file transfer methods -->
 	<bean id="waspGridFileService" class="edu.yu.einstein.wasp.grid.file.SshFileService">
-		<property name="gridTransportService" ref="gridTransportService" />
+		<constructor-arg ref="gridTransportService" />
+		<property name="timeout" value="${wasp.file.timeout:10000}" />
+		<property name="retries" value="${wasp.file.retries:6}" />
 	</bean>
 
 	<!-- Configure remote work service to utilize modules for software management -->
@@ -68,7 +67,7 @@
 		<constructor-arg type="java.lang.String">
 			<value>${wasp.ssh.host.name}</value>
 		</constructor-arg>
-		<constructor-arg><ref bean="waspSiteProperties" /></constructor-arg>
+		<constructor-arg ref="waspSiteProperties" />
 	</bean>
 	
 	
