@@ -26,6 +26,11 @@
 		<lookup-method name="createWorkUnit" bean="waspWorkUnit"/>
 	</bean>
 
+	<!-- generate link to download file -->
+	<bean id="waspFileUrlResolver" class="edu.yu.einstein.wasp.grid.file.DummyFileUrlResolver">
+		<constructor-arg name="url" value="http://dublin.einstein.yu.edu/" />
+	</bean>
+
 	<!-- layer that handles connections, can be ssh, localhost -->
 	<bean id="gridTransportService" class="edu.yu.einstein.wasp.grid.work.SshTransportService">
 		<property name="hostName" value="${wasp.ssh.host}" />
