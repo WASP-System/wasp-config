@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:mvc="http://www.springframework.org/schema/mvc"
-
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.1.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-        http://www.springframework.org/schema/batch
-        http://www.springframework.org/schema/batch/spring-batch-2.0.xsd
-  http://www.springframework.org/schema/mvc
-  http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
-        "
-	default-autowire="byName">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" default-autowire="byName" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
 	<!-- import site security configuration -->
 	<import resource="classpath:security-site-context.xml" />
@@ -28,33 +21,47 @@
 
 	<!-- generate link to download file -->
 	<bean id="waspFileUrlResolver" class="edu.yu.einstein.wasp.grid.file.DummyFileUrlResolver">
-		<constructor-arg name="url" value="http://dublin.einstein.yu.edu/" />
+		<constructor-arg name="url" value="http://wasp.einstein.yu.edu/" />
 	</bean>
+	
+	<!-- 
+	<bean id="waspFileUrlResolver" class="edu.yu.einstein.wasp.grid.file.LocalMappedRoundRobinFileUrlResolver">
+		<constructor-arg name="hostMap">
+			<map>
+                <entry key="host.example.org">
+                   	<list>
+                   		<value>http://file1.example.org:8080/file/get/</value>
+                   	</list>
+                </entry>
+            </map>
+		</constructor-arg>
+	</bean> 
+	-->
 
 	<!-- layer that handles connections, can be ssh, localhost -->
 	<bean id="gridTransportService" class="edu.yu.einstein.wasp.grid.work.SshTransportService">
-		<property name="hostName" value="${wasp.ssh.host}" />
-		<property name="userName" value="${wasp.ssh.user}" />
-		<property name="identityFileName" value="${wasp.ssh.identityfile:~/.ssh/id_rsa}" />
+		<property name="hostName" value="${albert.settings.host}" />
+		<property name="userName" value="${albert.settings.user}" />
+		<property name="identityFileName" value="${albert.settings.identityfile:~/.ssh/id_rsa}" />
 		<property name="softwareManager" ref="waspSoftwareManager" />
-		<property name="name" value="${wasp.ssh.host.name}" />
+		<property name="name" value="${albert.settings.host.name}" />
 		<property name="localProperties" ref="waspSiteProperties" />
-		<property name="userDirIsRoot" value="${wasp.ssh.userDirIsRoot}" />
+		<property name="userDirIsRoot" value="${albert.settings.userDirIsRoot}" />
 	</bean>
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
 	<bean id="waspGridWorkService" class="edu.yu.einstein.wasp.grid.work.SgeWorkService">
 		<constructor-arg ref="gridTransportService" />
-		<property name="queue" value="${wasp.grid.queue}" />
-		<property name="maxRunTime" value="${wasp.grid.maxruntime}" />
-		<property name="account" value="${wasp.grid.account}" />
-		<property name="project" value="${wasp.grid.project}" />
-		<property name="mailRecipient" value="${wasp.grid.mailrecipient}" />
-		<property name="mailCircumstances" value="${wasp.grid.mailcircumstances}" />	
-		<property name="jobNamePrefix" value="${wasp.name.prefix}" />
+		<property name="queue" value="${albert.settings.grid.queue}" />
+		<property name="maxRunTime" value="${albert.settings.grid.maxruntime}" />
+		<property name="account" value="${albert.settings.grid.account}" />
+		<property name="project" value="${albert.settings.grid.project}" />
+		<property name="mailRecipient" value="${albert.settings.grid.mailrecipient}" />
+		<property name="mailCircumstances" value="${albert.settings.grid.mailcircumstances}" />	
+		<property name="jobNamePrefix" value="${albert.settings.name.prefix}" />
 		<property name="availableParallelEnvironments">
 			<list>
-				<value>${wasp.grid.parallelenvironment}</value>
+				<value>${albert.settings.grid.parallelenvironment}</value>
 			</list>
 		</property>
 		<property name="gridFileService" ref="waspGridFileService" />
@@ -70,7 +77,7 @@
 	<!-- Configure remote work service to utilize modules for software management -->
 	<bean id="waspSoftwareManager" class="edu.yu.einstein.wasp.grid.work.ModulesManager">
 		<constructor-arg type="java.lang.String">
-			<value>${wasp.ssh.host.name}</value>
+			<value>${albert.settings.host.name}</value>
 		</constructor-arg>
 		<constructor-arg ref="waspSiteProperties" />
 	</bean>
