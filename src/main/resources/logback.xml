@@ -48,6 +48,8 @@
   
   <logger name="edu.yu.einstein.wasp" level="DEBUG"/>
   <logger name="org.springframework.integration.channel" level="DEBUG"/>
+  <logger name="net.schmizz" level="INFO"/>
+  <logger name="org.bouncycastle" level="INFO"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>

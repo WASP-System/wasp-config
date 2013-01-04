@@ -16,7 +16,6 @@
 	<!-- class for determining host to execute jobs -->
 	<bean id="gridHostResolver" class="edu.yu.einstein.wasp.grid.SingleHostResolver">
 		<constructor-arg name="gridWorkService" ref="waspGridWorkService" />
-		<lookup-method name="createWorkUnit" bean="waspWorkUnit"/>
 	</bean>
 
 	<!-- generate link to download file -->
@@ -58,7 +57,7 @@
 		<property name="project" value="${albert.settings.grid.project}" />
 		<property name="mailRecipient" value="${albert.settings.grid.mailrecipient}" />
 		<property name="mailCircumstances" value="${albert.settings.grid.mailcircumstances}" />	
-		<property name="jobNamePrefix" value="${albert.settings.name.prefix}" />
+		<property name="jobNamePrefix" value="${albert.settings.name.prefix:WASP}" />
 		<property name="availableParallelEnvironments">
 			<list>
 				<value>${albert.settings.grid.parallelenvironment}</value>
