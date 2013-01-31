@@ -46,7 +46,7 @@
       </authentication-provider>
 
       <!-- no password encoder to reauth -->
-      <!-- BOYLE: artifact <authentication-provider user-service-ref="waspUserDetailsService" />  -->
+      <authentication-provider user-service-ref="waspUserDetailsService" />
    	  
 
     </authentication-manager>
