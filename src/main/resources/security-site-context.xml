@@ -11,19 +11,45 @@
       <beans:property name="dataSource" ref="dataSource" />
     </beans:bean>
 
-	<beans:bean id="contextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
-        <beans:constructor-arg value="${authentication.ldap.url}" />
-     </beans:bean>
+	<beans:bean id="testContextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+		<beans:constructor-arg value="${authentication.ldap.test.url}" />
+	</beans:bean>
 
     <beans:bean id="testLdapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
         <beans:constructor-arg>
             <beans:bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
-                <beans:constructor-arg ref="contextSource" />
+                <beans:constructor-arg ref="testContextSource" />
                 <beans:property name="userSearch">
                     <beans:bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
-                      <beans:constructor-arg index="0" value="${authentication.ldap.ou}"/>
-                      <beans:constructor-arg index="1" value="(uid={0})"/>
-                      <beans:constructor-arg index="2" ref="contextSource" />
+                      <beans:constructor-arg name="searchBase" value="${authentication.ldap.test.searchbase}"/>
+                      <beans:constructor-arg name="searchFilter" value="${authentication.ldap.test.searchfilter}"/>
+                      <beans:constructor-arg name="contextSource" ref="testContextSource" />
+                    </beans:bean>
+                </beans:property>
+            </beans:bean>
+        </beans:constructor-arg>
+        <beans:constructor-arg>
+            <beans:bean class="edu.yu.einstein.wasp.security.WaspLdapAuthoritiesPopulator">
+            	<beans:constructor-arg ref="waspUserDetailsService" />
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>
+    
+    <beans:bean id="einsteinContextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+		<beans:constructor-arg value="${authentication.ldap.einstein.url}" />
+		<beans:property name="userDn" value="${authentication.ldap.einstein.userdn}" />
+		<beans:property name="password" value="${authentication.ldap.einstein.pass}" />
+	</beans:bean>
+    
+    <beans:bean id="einsteinLdapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <beans:constructor-arg>
+            <beans:bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <beans:constructor-arg ref="einsteinContextSource" />
+                <beans:property name="userSearch">
+                    <beans:bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+                      <beans:constructor-arg name="searchBase" value="${authentication.ldap.einstein.searchbase}"/>
+                      <beans:constructor-arg name="searchFilter" value="${authentication.ldap.einstein.searchfilter}"/>
+                      <beans:constructor-arg name="contextSource" ref="einsteinContextSource"/>
                     </beans:bean>
                 </beans:property>
             </beans:bean>
@@ -40,7 +66,7 @@
       <!--  test LDAP Authentication -->
       <!-- always try to auth of LDAP or AD before WASP DB -->
       <authentication-provider ref="testLdapAuthenticationProvider" />
-
+	  <authentication-provider ref="einsteinLdapAuthenticationProvider" />
       <authentication-provider user-service-ref="waspUserDetailsService" >
         <password-encoder hash="sha" />
       </authentication-provider>
