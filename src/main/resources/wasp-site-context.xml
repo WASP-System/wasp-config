@@ -48,7 +48,7 @@
 	
 	<!-- using pooled target source pattern -->
 
-	<bean id="albertGridTransportConnection" class="edu.yu.einstein.wasp.grid.work.SshTransportConnection" scope="prototype" lazy-init="false">
+	<bean id="primaryGridTransportConnection" class="edu.yu.einstein.wasp.grid.work.SshTransportConnection" scope="prototype" lazy-init="false">
 		<property name="hostName" value="${albert.settings.host}" />
 		<property name="userName" value="${albert.settings.user}" />
 		<property name="identityFileName" value="${albert.settings.identityfile:~/.ssh/id_rsa}" />
@@ -58,10 +58,10 @@
 		<property name="userDirIsRoot" value="${albert.settings.userDirIsRoot}" />
 	</bean>
 
-	<bean id="albertGridTransportService" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<bean id="primaryGridTransportService" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetSource">
 			<bean class="org.springframework.aop.target.CommonsPoolTargetSource" lazy-init="false">
-				<property name="targetBeanName" value="albertGridTransportConnection" />
+				<property name="targetBeanName" value="primaryGridTransportConnection" />
 				<property name="maxSize" value="${albert.settings.connectionpool.maxsize:50}" />
 				<property name="maxWait" value="${albert.settings.connectionpool.maxwait:5000}" />
 			</bean>
@@ -72,7 +72,7 @@
 
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
 	<bean id="waspGridWorkService" class="edu.yu.einstein.wasp.grid.work.SgeWorkService">
-		<constructor-arg ref="albertGridTransportService" />
+		<constructor-arg ref="primaryGridTransportService" />
 		<property name="queue" value="${albert.settings.grid.queue}" />
 		<property name="maxRunTime" value="${albert.settings.grid.maxruntime}" />
 		<property name="account" value="${albert.settings.grid.account}" />
@@ -90,7 +90,7 @@
 
 	<!-- waspGridFileService implements basic file transfer methods -->
 	<bean id="waspGridFileService" class="edu.yu.einstein.wasp.grid.file.SshFileService">
-		<constructor-arg ref="albertGridTransportService" />
+		<constructor-arg ref="primaryGridTransportService" />
 		<property name="timeout" value="${wasp.file.timeout:10000}" />
 		<property name="retries" value="${wasp.file.retries:6}" />
 	</bean>
