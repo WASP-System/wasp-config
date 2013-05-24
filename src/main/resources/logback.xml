@@ -41,7 +41,8 @@
   <logger name="org.hibernate.SQL" level="INFO"/>
   <logger name="org.springframework.batch" level="DEBUG"/>
   
-  <!-- Make the next 3 INFO level to prevent obscene log bloat misery!!! -->
+  <!-- Make the next 4 INFO level to prevent obscene log bloat misery!!! -->
+  <logger name="org.springframework.batch.retry.support.RetryTemplate" level="INFO"/>
   <logger name="org.springframework.batch.repeat.support.RepeatTemplate" level="INFO"/>
   <logger name="org.springframework.batch.core.scope.context.StepContextRepeatCallback" level="INFO"/>
   <logger name="org.springframework.batch.core.step.tasklet.TaskletStep" level="INFO"/>
