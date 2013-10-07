@@ -43,21 +43,21 @@
 	<!-- using pooled target source pattern -->
 
 	<bean id="primaryGridTransportConnection" class="edu.yu.einstein.wasp.grid.work.SshTransportConnection" scope="prototype" lazy-init="false">
-		<property name="hostName" value="${albert.settings.host}" />
-		<property name="userName" value="${albert.settings.user}" />
-		<property name="identityFileName" value="${albert.settings.identityfile:~/.ssh/id_rsa}" />
+		<property name="hostName" value="${c3.settings.host}" />
+		<property name="userName" value="${c3.settings.user}" />
+		<property name="identityFileName" value="${c3.settings.identityfile:~/.ssh/id_rsa}" />
 		<property name="softwareManager" ref="waspSoftwareManager" />
-		<property name="name" value="${albert.settings.host.name}" />
+		<property name="name" value="${c3.settings.host.name}" />
 		<property name="localProperties" ref="waspSiteProperties" />
-		<property name="userDirIsRoot" value="${albert.settings.userDirIsRoot}" />
+		<property name="userDirIsRoot" value="${c3.settings.userDirIsRoot}" />
 	</bean>
 
 	<bean id="primaryGridTransportService" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetSource">
 			<bean class="org.springframework.aop.target.CommonsPoolTargetSource" lazy-init="false">
 				<property name="targetBeanName" value="primaryGridTransportConnection" />
-				<property name="maxSize" value="${albert.settings.connectionpool.maxsize:50}" />
-				<property name="maxWait" value="${albert.settings.connectionpool.maxwait:5000}" />
+				<property name="maxSize" value="${c3.settings.connectionpool.maxsize:50}" />
+				<property name="maxWait" value="${c3.settings.connectionpool.maxwait:5000}" />
 			</bean>
 		</property>
 	</bean>
@@ -67,16 +67,16 @@
 	<!-- Bean that uses transport service to wrap and execute jobs remotely. -->
 	<bean id="waspGridWorkService" class="edu.yu.einstein.wasp.grid.work.SgeWorkService">
 		<constructor-arg ref="primaryGridTransportService" />
-		<property name="queue" value="${albert.settings.grid.queue}" />
-		<property name="maxRunTime" value="${albert.settings.grid.maxruntime}" />
-		<property name="account" value="${albert.settings.grid.account}" />
-		<property name="project" value="${albert.settings.grid.project}" />
-		<property name="mailRecipient" value="${albert.settings.grid.mailrecipient}" />
-		<property name="mailCircumstances" value="${albert.settings.grid.mailcircumstances}" />	
-		<property name="jobNamePrefix" value="${albert.settings.name.prefix:WASP}" />
+		<property name="queue" value="${c3.settings.grid.queue}" />
+		<property name="maxRunTime" value="${c3.settings.grid.maxruntime}" />
+		<property name="account" value="${c3.settings.grid.account}" />
+		<property name="project" value="${c3.settings.grid.project}" />
+		<property name="mailRecipient" value="${c3.settings.grid.mailrecipient}" />
+		<property name="mailCircumstances" value="${c3.settings.grid.mailcircumstances}" />	
+		<property name="jobNamePrefix" value="${c3.settings.name.prefix:WASP}" />
 		<property name="availableParallelEnvironments">
 			<list>
-				<value>${albert.settings.grid.parallelenvironment}</value>
+				<value>${c3.settings.grid.parallelenvironment}</value>
 			</list>
 		</property>
 		<property name="gridFileService" ref="waspGridFileService" />
@@ -92,7 +92,7 @@
 	<!-- Configure remote work service to utilize modules for software management -->
 	<bean id="waspSoftwareManager" class="edu.yu.einstein.wasp.grid.work.ModulesManager">
 		<constructor-arg type="java.lang.String">
-			<value>${albert.settings.host.name}</value>
+			<value>${c3.settings.host.name}</value>
 		</constructor-arg>
 		<constructor-arg ref="waspSiteProperties" />
 	</bean>
