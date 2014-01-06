@@ -46,7 +46,6 @@
   <logger name="org.springframework.batch.repeat.support.RepeatTemplate" level="INFO"/>
   <logger name="org.springframework.batch.core.scope.context.StepContextRepeatCallback" level="INFO"/>
   <logger name="org.springframework.batch.core.step.tasklet.TaskletStep" level="INFO"/>
-  <logger name="edu.yu.einstein.wasp.batch.core.extension" level="INFO"/>
   
   <logger name="edu.yu.einstein.wasp" level="DEBUG"/>
   <logger name="org.springframework.integration.channel" level="DEBUG"/>

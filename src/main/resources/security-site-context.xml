@@ -65,8 +65,10 @@
  
       <!--  test LDAP Authentication -->
       <!-- always try to auth of LDAP or AD before WASP DB -->
-      <authentication-provider ref="testLdapAuthenticationProvider" />
-	  <authentication-provider ref="einsteinLdapAuthenticationProvider" />
+      
+      <!-- comment out LDAP providers below that do not have configured context sources (no userDn or password provided) to avoid fatal connection errors -->
+      <!-- authentication-provider ref="testLdapAuthenticationProvider" /-->
+	  <!-- authentication-provider ref="einsteinLdapAuthenticationProvider" /-->
       <authentication-provider user-service-ref="waspUserDetailsService" >
         <password-encoder hash="sha" />
       </authentication-provider>
