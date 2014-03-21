@@ -10,7 +10,7 @@
 <configuration>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d %p [%c %L] - %m%n</pattern>
+      <pattern>%d %p [%c{15}#%M] - %m%n</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
@@ -45,6 +45,8 @@
   <logger name="org.springframework.batch.retry.support.RetryTemplate" level="INFO"/>
   <logger name="org.springframework.batch.repeat.support.RepeatTemplate" level="INFO"/>
   <logger name="org.springframework.batch.core.scope.context.StepContextRepeatCallback" level="INFO"/>
+  <logger name="org.springframework.batch.core.step.AbstractStep" level="INFO"/>
+  <logger name="org.springframework.batch.core.job.AbstractJob" level="INFO"/>
   <logger name="org.springframework.batch.core.step.tasklet.TaskletStep" level="INFO"/>
   
   <logger name="edu.yu.einstein.wasp" level="DEBUG"/>
@@ -53,5 +55,6 @@
   <logger name="org.bouncycastle" level="INFO"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
+    <!-- appender-ref ref="logfile"/ -->
   </root>
 </configuration>
