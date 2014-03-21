@@ -2,8 +2,8 @@
 <body style="font-family:arial,'sans-serif','Times New Roman',Georgia; font-size:100%">
 <div style="width: 980px;margin: auto;"> 
 	<div style="background-image: url(${baseUrl}/images/header_background.png);padding :5px 5px 5px 5px;">
-		<a href="${baseUrl}/wasp/"><img src="${customLogoResource}" alt="Home Page" /></a>
-		<div style="float:right"><a href="http://waspsystem.org"><img src="/wasp/images/waspSystemLogoLong_200x60.png" alt="WASP System" height="40" /></a></div>
+		<a href="${baseUrl}"><img src="${baseUrl}${customLogoResource}" alt="Home Page" height="80" /></a>
+		<div style="float:right"><a href="http://waspsystem.org"><img src="${baseUrl}/images/waspSystemLogoLong_200x60.png" alt="Wasp System" height="40" /></a></div>
 	</div>
 	
 	<br /><br />
