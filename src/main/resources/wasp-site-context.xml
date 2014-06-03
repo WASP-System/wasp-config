@@ -87,6 +87,7 @@
 		<constructor-arg ref="primaryGridTransportService" />
 		<property name="timeout" value="${wasp.file.timeout:10000}" />
 		<property name="retries" value="${wasp.file.retries:6}" />
+		<property name="userDirIsRoot" value="${c3.settings.userDirIsRoot}" />
 	</bean>
 
 	<!-- Configure remote work service to utilize modules for software management -->
