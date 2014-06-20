@@ -74,11 +74,10 @@
 		<property name="mailRecipient" value="${c3.settings.grid.mailrecipient}" />
 		<property name="mailCircumstances" value="${c3.settings.grid.mailcircumstances}" />	
 		<property name="jobNamePrefix" value="${c3.settings.name.prefix:WASP}" />
-		<property name="availableParallelEnvironments">
-			<list>
-				<value>${c3.settings.grid.parallelenvironment}</value>
-			</list>
-		</property>
+		<property name="availableParallelEnvironments" value="${c3.setting.grid.availableparallelenvironments}" />
+		<property name="defaultMpiParallelEnvironment" value="${c3.settings.grid.defaultmpiparallelenv}" />
+		<property name="defaultParallelEnvironment" value="${c3.settings.grid.defaultparallelenv}" />
+		<property name="numProcConsumable" value="${c3.settings.grid.numprocisconsumable}" />
 		<property name="gridFileService" ref="waspGridFileService" />
 	</bean>
 
